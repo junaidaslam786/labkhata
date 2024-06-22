@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@labkhata/company": ["modules/company/src/index.ts"],
       "@labkhata/modules/authentication": [
         "modules/authentication/src/index.ts"
       ],
