@@ -1,0 +1,28 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@labkhata/modules/authentication": [
+        "modules/authentication/src/index.ts"
+      ],
+      "@labkhata/modules/shared/ui": ["modules/shared/ui/src/index.ts"],
+      "@labkhata/pages": ["modules/pages/src/index.ts"],
+      "@labkhata/routes": ["modules/routes/src/index.ts"],
+      "@labkhata/store": ["modules/store/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "modules-authentication",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "modules/authentication/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project modules-authentication --web",
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "modules/authentication/src/**/*.ts"
+        ]
+      }
+    }
+  }
+}
