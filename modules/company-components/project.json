@@ -1,7 +1,7 @@
 {
   "name": "company",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "modules/company/src",
+  "sourceRoot": "modules/company-components/src",
   "projectType": "library",
   "tags": [],
   "// targets": "to see all targets run: nx show project company --web",

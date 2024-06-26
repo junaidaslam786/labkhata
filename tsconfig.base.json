@@ -15,14 +15,15 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@labkhata/company": ["modules/company/src/index.ts"],
+      "@labkhata/company": ["modules/company-components/src/index.ts"],
       "@labkhata/modules/authentication": [
         "modules/authentication/src/index.ts"
       ],
       "@labkhata/modules/shared/ui": ["modules/shared/ui/src/index.ts"],
       "@labkhata/pages": ["modules/pages/src/index.ts"],
       "@labkhata/routes": ["modules/routes/src/index.ts"],
-      "@labkhata/store": ["modules/store/src/index.ts"]
+      "@labkhata/store": ["modules/store/src/index.ts"],
+      "@labkhata/utility": ["modules/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

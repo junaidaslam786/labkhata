@@ -1,16 +1,22 @@
 import { useState } from 'react';
-import styles from './RegisterForm.module.css';
+import styles from './CreateCompanyComponent.module.css';
 import { InputField, Button } from '@labkhata/modules/shared/ui';
 
-interface RegisterFormProps {
-  onSubmit: (formData: { name: string; email: string; password: string }) => void;
+interface CreateCompanyComponentProps {
+  onSubmit: (formData: {
+    name: string;
+    address: string;
+    industry: string;
+  }) => void;
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
+const CreateCompanyComponent: React.FC<CreateCompanyComponentProps> = ({
+  onSubmit,
+}) => {
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
-    password: '',
+    address: '',
+    industry: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,31 +33,31 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <h2 className={styles.title}>Register</h2>
+      <h2 className={styles.title}>Register Company</h2>
       <InputField
-        label="name"
+        label="Name"
         type="text"
         value={formData.name}
         onChange={handleChange}
         name="name"
       />
       <InputField
-        label="Email"
-        type="email"
-        value={formData.email}
+        label="Address"
+        type="text"
+        value={formData.address}
         onChange={handleChange}
-        name="email"
+        name="address"
       />
       <InputField
-        label="Password"
-        type="password"
-        value={formData.password}
+        label="Industry"
+        type="text"
+        value={formData.industry}
         onChange={handleChange}
-        name="password"
+        name="industry"
       />
-      <Button text="Register" />
+      <Button text="Register Company" />
     </form>
   );
 };
 
-export default RegisterForm;
+export default CreateCompanyComponent;

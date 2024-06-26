@@ -7,7 +7,7 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   root: __dirname,
-  cacheDir: '../../node_modules/.vite/modules/company',
+  cacheDir: '../../node_modules/.vite/modules/utils',
 
   plugins: [
     react(),
@@ -26,7 +26,7 @@ export default defineConfig({
   // Configuration for building your library.
   // See: https://vitejs.dev/guide/build.html#library-mode
   build: {
-    outDir: '../../dist/modules/company',
+    outDir: '../../dist/modules/utils',
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {
@@ -35,7 +35,7 @@ export default defineConfig({
     lib: {
       // Could also be a dictionary or array of multiple entry points.
       entry: 'src/index.ts',
-      name: 'company',
+      name: 'utility',
       fileName: 'index',
       // Change this to the formats you want to support.
       // Don't forget to update your package.json as well.
@@ -51,14 +51,14 @@ export default defineConfig({
     watch: false,
     globals: true,
     cache: {
-      dir: '../../node_modules/.vitest/modules/company',
+      dir: '../../node_modules/.vitest/modules/utils',
     },
     environment: 'jsdom',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
 
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../coverage/modules/company',
+      reportsDirectory: '../../coverage/modules/utils',
       provider: 'v8',
     },
   },

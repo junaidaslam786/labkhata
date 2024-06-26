@@ -4,7 +4,6 @@ interface User {
   id: string;
   username: string;
   email: string;
-  // Add any other properties that are part of the user object
 }
 
 interface AuthState {

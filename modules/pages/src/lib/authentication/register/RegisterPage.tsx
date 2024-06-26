@@ -8,7 +8,7 @@ const RegisterPage: React.FC = () => {
   const dispatch = useDispatch();
   const [register, { isLoading }] = useRegisterMutation();
 
-  const handleRegister = async (formData: { username: string; email: string; password: string }) => {
+  const handleRegister = async (formData: { name: string; email: string; password: string }) => {
     try {
       const user = await register(formData).unwrap();
       dispatch(setCredentials({ user, token: user.token }));
