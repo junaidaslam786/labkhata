@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useCreateAccountMutation } from '@labkhata/store';
 import { AccountForm } from '@labkhata/company';
-import {Button} from '@labkhata/modules/shared/ui';
-import './create-accounts-page.css'; // Ensure to style your component
+import { Button } from '@labkhata/modules/shared/ui';
+import './CreateAccountsPage.module.css';
 
 const CreateAccountsPage: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [createAccount, { isLoading, isError, error }] = useCreateAccountMutation();
+  const [createAccount, { isLoading, isError, error }] =
+    useCreateAccountMutation();
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -29,7 +30,11 @@ const CreateAccountsPage: React.FC = () => {
     <div className="create-accounts-page">
       <h1>Create Account</h1>
       <Button text="Create Account" onClick={handleOpenModal} />
-      <AccountForm isOpen={isModalOpen} onClose={handleCloseModal} onSubmit={handleSubmit} />
+      <AccountForm
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleSubmit}
+      />
       {isLoading && <p>Loading...</p>}
       {/* {isError && <p className="error">Error: {error?.data?.message || 'Failed to create account'}</p>} */}
     </div>

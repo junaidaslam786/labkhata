@@ -15,7 +15,7 @@ const LoginPage: React.FC = () => {
       const user = await login(formData).unwrap();
       dispatch(setCredentials({ user, token: user.token }));
       localStorage.setItem('token', user.token);
-      navigate('/dashboard');
+      navigate('/admin/dashboard');
     } catch (error) {
       console.error('Failed to login:', error);
     }

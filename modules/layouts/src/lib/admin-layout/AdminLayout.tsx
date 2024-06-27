@@ -1,15 +1,17 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import styles from './AdminLayout.module.css'
+import { Sidebar } from '@labkhata/modules/shared/ui';
 
 const AdminLayout: React.FC = () => {
   return (
-    <div className="admin-layout">
-      <header>Admin Header</header>
-      <div className="admin-content">
-        <aside>Sidebar</aside>
-        <main>
+    <div className={styles.main}>
+      {/* <Header /> */}
+      <div className={styles.page}>
+        <Sidebar />
+        <div>
           <Outlet />
-        </main>
+        </div>
       </div>
     </div>
   );

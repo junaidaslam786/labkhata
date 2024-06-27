@@ -5,3 +5,15 @@
  * .container {
  * }
 */
+.main {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+  }
+  
+  .page {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+  }
+  
