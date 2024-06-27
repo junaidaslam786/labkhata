@@ -12,7 +12,7 @@ export const authApi = createApi({
       }
       return headers;
     },
-    credentials: 'include', // Include credentials in the requests
+    credentials: 'include', 
   }),
   endpoints: (builder) => ({
     login: builder.mutation({

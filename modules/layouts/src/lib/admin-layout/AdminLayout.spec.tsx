@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import Pages from './pages';
+import AdminLayout from './AdminLayout';
 
-describe('Pages', () => {
+describe('AdminLayout', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Pages />);
+    const { baseElement } = render(<AdminLayout />);
     expect(baseElement).toBeTruthy();
   });
 });

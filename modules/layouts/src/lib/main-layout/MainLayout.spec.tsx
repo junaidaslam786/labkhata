@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import Company from './company';
+import MainLayout from './MainLayout';
 
-describe('Company', () => {
+describe('MainLayout', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Company />);
+    const { baseElement } = render(<MainLayout />);
     expect(baseElement).toBeTruthy();
   });
 });
