@@ -1,207 +1,275 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import MuiDrawer from '@mui/material/Drawer';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import {
-  FaGripHorizontal,
-  FaHome,
-  FaBookOpen,
-  FaListAlt,
-  FaChartLine,
-  FaCog,
-  FaSignOutAlt,
-  FaUserCircle,
-  FaCompass,
-  FaHistory,
-  FaBars,
-} from 'react-icons/fa';
-import styles from './Sidebar.module.css';
-import { IoClose } from 'react-icons/io5';
+  AccountBox,
+  Inbox,
+  Business,
+  ExpandLess,
+  ExpandMore,
+} from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+import { Collapse } from '@mui/material';
 
-const Sidebar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const drawerWidth = 240;
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+const openedMixin = (theme: Theme): CSSObject => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+});
+
+const closedMixin = (theme: Theme): CSSObject => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
+});
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: 'nowrap',
+  boxSizing: 'border-box',
+  ...(open && {
+    ...openedMixin(theme),
+    '& .MuiDrawer-paper': openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    '& .MuiDrawer-paper': closedMixin(theme),
+  }),
+}));
+
+interface SidebarProps {
+  children: React.ReactNode;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const [submenuOpen, setSubmenuOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
   };
 
-  useEffect(() => {
-    const sidebar = document.querySelector<HTMLElement>('.sidebar');
-    const sidebarBtn = document.querySelector<HTMLElement>('.sidebar-btn');
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
-    if (sidebar && sidebarBtn) {
-      sidebarBtn.addEventListener('click', toggleSidebar);
-    }
-
-    return () => {
-      if (sidebarBtn) {
-        sidebarBtn.removeEventListener('click', toggleSidebar);
-      }
-    };
-  }, []);
+  const handleSubmenuToggle = () => {
+    setSubmenuOpen(!submenuOpen);
+  };
 
   return (
-    <div className={styles.container}>
-      <div
-        className={`${styles.sidebar} ${isOpen ? styles.open : styles.close}`}
-      >
-        <div className={styles.logoDetails}>
-          <FaGripHorizontal className={styles.icon} />
-          <span className={styles.logoName}>Labkhata</span>
-          <button className={styles.sidebarBtn} onClick={toggleSidebar}>
-            {isOpen ? (
-              <IoClose className={styles.burger} />
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar position="fixed" open={open}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: 'none' }),
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap component="div">
+            Labkhata
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? (
+              <ChevronRightIcon />
             ) : (
-              <FaBars className={styles.burger} />
+              <ChevronLeftIcon />
             )}
-          </button>
-        </div>
-        <ul className={styles.navLinks}>
-          <li>
-            <a href="#">
-              <FaHome className={styles.icon} />
-              <span className={styles.linkName}>Dashboard</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <FaBookOpen className={styles.icon} />
-              <span className={styles.linkName}>Category</span>
-            </a>
-            <ul className={`${styles.subMenu} ${styles.blank}`}>
-              <li>
-                <a className={styles.linkName} href="#">
-                  Category
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">
-              <FaListAlt className={styles.icon} />
-              <span className={styles.linkName}>Posts</span>
-            </a>
-            <ul className={styles.subMenu}>
-              <li>
-                <a className={styles.linkName} href="#">
-                  Posts
-                </a>
-              </li>
-              <li>
-                <a href="#">Web Design</a>
-              </li>
-              <li>
-                <a href="#">Login Form</a>
-              </li>
-              <li>
-                <a href="#">Card Design</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">
-              <FaChartLine className={styles.icon} />
-              <span className={styles.linkName}>Analytics</span>
-            </a>
-            <ul className={`${styles.subMenu} ${styles.blank}`}>
-              <li>
-                <a className={styles.linkName} href="#">
-                  Analytics
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">
-              <FaChartLine className={styles.icon} />
-              <span className={styles.linkName}>Chart</span>
-            </a>
-            <ul className={`${styles.subMenu} ${styles.blank}`}>
-              <li>
-                <a className={styles.linkName} href="#">
-                  Chart
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <div className={styles.iconLink}>
-              <a href="#">
-                <FaCog className={styles.icon} />
-                <span className={styles.linkName}>Plugins</span>
-              </a>
-            </div>
-            <ul className={styles.subMenu}>
-              <li>
-                <a className={styles.linkName} href="#">
-                  Plugins
-                </a>
-              </li>
-              <li>
-                <a href="#">UI Face</a>
-              </li>
-              <li>
-                <a href="#">Pigments</a>
-              </li>
-              <li>
-                <a href="#">Box Icons</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">
-              <FaCompass className={styles.icon} />
-              <span className={styles.linkName}>Explore</span>
-            </a>
-            <ul className={`${styles.subMenu} ${styles.blank}`}>
-              <li>
-                <a className={styles.linkName} href="#">
-                  Explore
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <li>
-            <a href="#">
-              <FaHistory className={styles.icon} />
-              <span className={styles.linkName}>History</span>
-            </a>
-            <ul className={`${styles.subMenu} ${styles.blank}`}>
-              <li>
-                <a className={styles.linkName} href="#">
-                  History
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">
-              <FaCog className={styles.icon} />
-              <span className={styles.linkName}>Setting</span>
-            </a>
-            <ul className={`${styles.subMenu} ${styles.blank}`}>
-              <li>
-                <a className={styles.linkName} href="#">
-                  Setting
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <div className={styles.profileDetails}>
-              <div className={styles.profileContent}>
-                <FaUserCircle className={styles.icon} />
-              </div>
-              <div className={styles.nameJob}>
-                <div className={styles.profileName}>Prem Shahi</div>
-                <div className={styles.job}>Web Designer</div>
-              </div>
-              <a href="#">
-                <FaSignOutAlt className={styles.icon} />
-              </a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/admin/dashboard"
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <Inbox />
+              </ListItemIcon>
+              <ListItemText
+                primary="Dashboard"
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <ListItemButton
+                onClick={handleSubmenuToggle}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: submenuOpen ? 'space-between' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Business />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Company"
+                  sx={{ opacity: open ? 1 : 0, mr: open ? 3 : 'auto' }}
+                />
+                {submenuOpen ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse
+                in={submenuOpen}
+                timeout="auto"
+                unmountOnExit
+                sx={{ ml: 4 }}
+              >
+                <List component="div" disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    to="/create-company"
+                    onClick={() => setSubmenuOpen(false)}
+                  >
+                    <ListItemText primary="Create Company" />
+                  </ListItemButton>
+                  <ListItemButton
+                    component={Link}
+                    to="/company-details"
+                    onClick={() => setSubmenuOpen(false)}
+                  >
+                    <ListItemText primary="Company Details" />
+                  </ListItemButton>
+                  <ListItemButton
+                    component={Link}
+                    to="/other-details"
+                    onClick={() => setSubmenuOpen(false)}
+                  >
+                    <ListItemText primary="Other Details" />
+                  </ListItemButton>
+                </List>
+              </Collapse>
+            </Box>
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                /* Handle customers click */
+              }}
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <AccountBox />
+              </ListItemIcon>
+              <ListItemText
+                primary="Customers"
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Drawer>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <DrawerHeader />
+        {children}
+      </Box>
+    </Box>
   );
 };
 

@@ -20,7 +20,7 @@ const CreateCompany: React.FC = () => {
       }
       await createCompany({ companyData: formData }).unwrap();
       alert('Company created successfully');
-      navigate('/dashboard');
+      navigate('/admin/dashboard');
     } catch (error) {
       console.error('Failed to create company', error);
       alert('Failed to create company');
