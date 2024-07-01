@@ -6,13 +6,21 @@ import {
   Select,
   MenuItem,
   TextField,
+  SelectChangeEvent,
 } from '@mui/material';
 import { Modal } from '@labkhata/modules/shared/ui';
 
 interface AccountFormProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: AccountFormData) => void;
+}
+
+interface AccountFormData {
+  name: string;
+  type: string;
+  initialBalance: number;
+  initialBalanceType: string;
 }
 
 const AccountForm: React.FC<AccountFormProps> = ({
@@ -20,15 +28,23 @@ const AccountForm: React.FC<AccountFormProps> = ({
   onClose,
   onSubmit,
 }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<AccountFormData>({
     name: '',
     type: '',
     initialBalance: 0,
     initialBalanceType: 'Debit',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
       [name as string]: value,
@@ -40,13 +56,6 @@ const AccountForm: React.FC<AccountFormProps> = ({
     onSubmit(formData);
   };
 
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      initialBalanceType: event.target.value,
-    }));
-  };
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit}>
@@ -54,7 +63,7 @@ const AccountForm: React.FC<AccountFormProps> = ({
           label="Name"
           type="text"
           value={formData.name}
-          onChange={handleChange}
+          onChange={handleInputChange}
           name="name"
           fullWidth
           margin="normal"
@@ -67,7 +76,7 @@ const AccountForm: React.FC<AccountFormProps> = ({
             id="type"
             name="type"
             value={formData.type}
-            onChange={handleChange}
+            onChange={handleSelectChange}
             label="Type"
           >
             <MenuItem value="">Select Type</MenuItem>
@@ -82,7 +91,7 @@ const AccountForm: React.FC<AccountFormProps> = ({
           label="Initial Balance"
           type="number"
           value={String(formData.initialBalance)}
-          onChange={handleChange}
+          onChange={handleInputChange}
           name="initialBalance"
           fullWidth
           margin="normal"
