@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useCreateAccountMutation } from '@labkhata/store';
 import { AccountForm } from '@labkhata/company';
-import { Button } from '@labkhata/modules/shared/ui';
 import './CreateAccountsPage.module.css';
+import { Box, Button } from '@mui/material';
 
 const CreateAccountsPage: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -29,7 +29,9 @@ const CreateAccountsPage: React.FC = () => {
   return (
     <div className="create-accounts-page">
       <h1>Create Account</h1>
-      <Button text="Create Account" onClick={handleOpenModal} />
+      <Button variant="contained" onClick={handleOpenModal}>
+        Create Account
+      </Button>
       <AccountForm
         isOpen={isModalOpen}
         onClose={handleCloseModal}

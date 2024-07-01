@@ -1,14 +1,25 @@
-import styles from './AccountForm.module.css';
-
 import React, { useState } from 'react';
-import { Modal, InputField, Button } from '@labkhata/modules/shared/ui';
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+} from '@mui/material';
+import { Modal } from '@labkhata/modules/shared/ui';
+
 interface AccountFormProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: any) => void;
 }
 
-const AccountForm: React.FC<AccountFormProps> = ({ isOpen, onClose, onSubmit }) => {
+const AccountForm: React.FC<AccountFormProps> = ({
+  isOpen,
+  onClose,
+  onSubmit,
+}) => {
   const [formData, setFormData] = useState({
     name: '',
     type: '',
@@ -16,11 +27,11 @@ const AccountForm: React.FC<AccountFormProps> = ({ isOpen, onClose, onSubmit }) 
     initialBalanceType: 'Debit',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name as string]: value,
     }));
   };
 
@@ -29,42 +40,73 @@ const AccountForm: React.FC<AccountFormProps> = ({ isOpen, onClose, onSubmit }) 
     onSubmit(formData);
   };
 
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      initialBalanceType: event.target.value,
+    }));
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit}>
-        <InputField
+        <TextField
           label="Name"
           type="text"
           value={formData.name}
           onChange={handleChange}
           name="name"
+          fullWidth
+          margin="normal"
+          required
         />
-        <div>
-          <label htmlFor="type">Type</label>
-          <select id="type" name="type" value={formData.type} onChange={handleChange} required>
-            <option value="">Select Type</option>
-            <option value="asset">Asset</option>
-            <option value="liability">Liability</option>
-            <option value="equity">Equity</option>
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
-          </select>
-        </div>
-        <InputField
+        <FormControl fullWidth margin="normal" required>
+          <InputLabel id="type-label">Type</InputLabel>
+          <Select
+            labelId="type-label"
+            id="type"
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
+            label="Type"
+          >
+            <MenuItem value="">Select Type</MenuItem>
+            <MenuItem value="asset">Asset</MenuItem>
+            <MenuItem value="liability">Liability</MenuItem>
+            <MenuItem value="equity">Equity</MenuItem>
+            <MenuItem value="income">Income</MenuItem>
+            <MenuItem value="expense">Expense</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
           label="Initial Balance"
           type="number"
           value={String(formData.initialBalance)}
           onChange={handleChange}
           name="initialBalance"
+          fullWidth
+          margin="normal"
+          required
         />
-        <div>
-          <label htmlFor="initialBalanceType">Initial Balance Type</label>
-          <select id="initialBalanceType" name="initialBalanceType" value={formData.initialBalanceType} onChange={handleChange} required>
-            <option value="Debit">Debit</option>
-            <option value="Credit">Credit</option>
-          </select>
-        </div>
-        <Button text="Create Account" />
+        <FormControl fullWidth margin="normal" required>
+          <InputLabel id="initialBalanceType-label">
+            Initial Balance Type
+          </InputLabel>
+          <Select
+            labelId="initialBalanceType-label"
+            id="initialBalanceType"
+            name="initialBalanceType"
+            value={formData.initialBalanceType}
+            onChange={handleSelectChange}
+            label="Initial Balance Type"
+          >
+            <MenuItem value="Debit">Debit</MenuItem>
+            <MenuItem value="Credit">Credit</MenuItem>
+          </Select>
+        </FormControl>
+        <Button type="submit" variant="contained" color="primary">
+          Create Account
+        </Button>
       </form>
     </Modal>
   );

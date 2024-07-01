@@ -22,6 +22,7 @@ import {
   Business,
   ExpandLess,
   ExpandMore,
+  Dashboard,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { Collapse } from '@mui/material';
@@ -54,7 +55,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -169,7 +169,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                   justifyContent: 'center',
                 }}
               >
-                <Inbox />
+                <Dashboard />
               </ListItemIcon>
               <ListItemText
                 primary="Dashboard"
@@ -178,12 +178,14 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box
+              sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+            >
               <ListItemButton
                 onClick={handleSubmenuToggle}
                 sx={{
                   minHeight: 48,
-                  justifyContent: submenuOpen ? 'space-between' : 'center',
+                  justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
               >
@@ -198,9 +200,9 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                 </ListItemIcon>
                 <ListItemText
                   primary="Company"
-                  sx={{ opacity: open ? 1 : 0, mr: open ? 3 : 'auto' }}
+                  sx={{ opacity: open ? 1 : 0 }}
                 />
-                {submenuOpen ? <ExpandLess /> : <ExpandMore />}
+                  { open ? submenuOpen ? <ExpandLess /> : <ExpandMore /> : ''}
               </ListItemButton>
               <Collapse
                 in={submenuOpen}
