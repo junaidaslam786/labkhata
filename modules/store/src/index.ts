@@ -1,3 +1,4 @@
+export * from './lib/services/api/contact.api'
 export * from './lib/services/transaction.slice';
 export * from './lib/services/api/transaction.api';
 export * from './lib/services/user.slice';

@@ -5,6 +5,7 @@ import { companyApi } from './services/api/company.api';
 import { accountApi } from './services/api/accounts.api';
 import { userApi } from './services/api/user.api';
 import { transactionApi } from './services/api/transaction.api';
+import { contactApi } from './services/api/contact.api';
 import authReducer from './services/auth.slice';
 import companyReducer from './services/company.slice';
 import userReducer from './services/user.slice';
@@ -21,9 +22,10 @@ export const store = configureStore({
     [accountApi.reducerPath]: accountApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [transactionApi.reducerPath]: transactionApi.reducer,
+    [contactApi.reducerPath]: contactApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware, companyApi.middleware, userApi.middleware),
+    getDefaultMiddleware().concat(authApi.middleware, companyApi.middleware, userApi.middleware, contactApi.middleware),
 });
 
 setupListeners(store.dispatch);

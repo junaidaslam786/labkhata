@@ -71,14 +71,6 @@ const AccountForm: React.FC<AccountFormProps> = ({
     onSubmit(formData);
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching user data</div>;
-  }
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <Box sx={{ width: '50vw', height: 'auto' }}>

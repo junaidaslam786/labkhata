@@ -4,3 +4,6 @@ export { default as CreateCompany } from './lib/company/create-company/CreateCom
 export { default as Dashboard } from './lib/company/dashboard/Dashboard';
 export { default as CreateAccountsPage } from './lib/accounts/create/CreateAccountsPage';
 export { default as NewTransactionPage } from './lib/transactionPage/new/NewTransactionPage';
+export { default as TransactionPage } from './lib/transactionPage/TransactionPage';
+export { default as NewContactPage } from './lib/contacts/new/NewContactPage';
+export { default as ContactPage } from './lib/contacts/ContactsPage';

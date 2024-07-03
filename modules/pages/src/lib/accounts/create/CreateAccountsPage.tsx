@@ -37,8 +37,6 @@ const CreateAccountsPage: React.FC = () => {
         onClose={handleCloseModal}
         onSubmit={handleSubmit}
       />
-      {isLoading && <p>Loading...</p>}
-      {/* {isError && <p className="error">Error: {error?.data?.message || 'Failed to create account'}</p>} */}
     </div>
   );
 };

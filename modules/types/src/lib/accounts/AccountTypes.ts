@@ -6,9 +6,9 @@ export interface Account {
     type: string;
     initialBalance: number;
     initialBalanceType: 'Debit' | 'Credit';
-    company: Company;
+    company: Companies;
     journalEntries: JournalEntry[];
-    contact: Contact;
+    contact: Contacts;
     createdAt: Date;
     updatedAt: Date;
   }
@@ -36,7 +36,7 @@ export interface Account {
     initialBalanceType: 'Debit' | 'Credit';
   }
   
-  export interface Company {
+  export interface Companies {
     id: number;
     name: string;
   }
@@ -47,7 +47,7 @@ export interface Account {
     credit: number;
   }
   
-  export interface Contact {
+  export interface Contacts {
     id: number;
     name: string;
   }

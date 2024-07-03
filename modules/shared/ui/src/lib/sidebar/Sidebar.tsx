@@ -24,6 +24,7 @@ import {
   ExpandMore,
   Dashboard,
   Paid,
+  Contacts,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { Collapse } from '@mui/material';
@@ -430,6 +431,88 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                     }
                   >
                     <ListItemText primary="Other Details" />
+                  </ListItemButton>
+                </List>
+              </Collapse>
+            </Box>
+          </ListItem>
+          <ListItem disablePadding>
+            <Box
+              sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+            >
+              <ListItemButton
+                onClick={() => handleSubmenuToggle('contacts')}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Contacts />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Contacts"
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+                {open ? (
+                  openSubmenus.contacts ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  )
+                ) : (
+                  ''
+                )}
+              </ListItemButton>
+              <Collapse
+                in={openSubmenus.contacts}
+                timeout="auto"
+                unmountOnExit
+                sx={{ ml: 4 }}
+              >
+                <List component="div" disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    to="/admin/contacts/new"
+                    onClick={() =>
+                      setOpenSubmenus((prev) => ({
+                        ...prev,
+                        contacts: false,
+                      }))
+                    }
+                  >
+                    <ListItemText primary="Create Contact" />
+                  </ListItemButton>
+                  <ListItemButton
+                    component={Link}
+                    to="/admin/contacts/details"
+                    onClick={() =>
+                      setOpenSubmenus((prev) => ({
+                        ...prev,
+                        contacts: false,
+                      }))
+                    }
+                  >
+                    <ListItemText primary="Contact Details" />
+                  </ListItemButton>
+                  <ListItemButton
+                    component={Link}
+                    to="/admin/contacts"
+                    onClick={() =>
+                      setOpenSubmenus((prev) => ({
+                        ...prev,
+                        contacts: false,
+                      }))
+                    }
+                  >
+                    <ListItemText primary="All Contacts" />
                   </ListItemButton>
                 </List>
               </Collapse>
