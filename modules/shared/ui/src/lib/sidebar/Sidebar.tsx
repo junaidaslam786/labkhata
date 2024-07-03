@@ -23,6 +23,7 @@ import {
   ExpandLess,
   ExpandMore,
   Dashboard,
+  Paid,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { Collapse } from '@mui/material';
@@ -104,7 +105,13 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [submenuOpen, setSubmenuOpen] = React.useState(false);
+  const [openSubmenus, setOpenSubmenus] = React.useState<{
+    [key: string]: boolean;
+  }>({
+    company: false,
+    accounts: false,
+    transactions: false,
+  });
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -114,8 +121,13 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
     setOpen(false);
   };
 
-  const handleSubmenuToggle = () => {
-    setSubmenuOpen(!submenuOpen);
+  const handleSubmenuToggle = (submenu: string) => {
+    if (open) {
+      setOpenSubmenus((prev) => ({
+        ...prev,
+        [submenu]: !prev[submenu],
+      }));
+    } 
   };
 
   return (
@@ -182,7 +194,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
               sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
             >
               <ListItemButton
-                onClick={handleSubmenuToggle}
+                onClick={() => handleSubmenuToggle('company')}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -202,10 +214,18 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                   primary="Company"
                   sx={{ opacity: open ? 1 : 0 }}
                 />
-                  { open ? submenuOpen ? <ExpandLess /> : <ExpandMore /> : ''}
+                {open ? (
+                  openSubmenus.company ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  )
+                ) : (
+                  ''
+                )}
               </ListItemButton>
               <Collapse
-                in={submenuOpen}
+                in={openSubmenus.company}
                 timeout="auto"
                 unmountOnExit
                 sx={{ ml: 4 }}
@@ -214,21 +234,200 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                   <ListItemButton
                     component={Link}
                     to="/create-company"
-                    onClick={() => setSubmenuOpen(false)}
+                    onClick={() =>
+                      setOpenSubmenus((prev) => ({
+                        ...prev,
+                        company: false,
+                      }))
+                    }
                   >
                     <ListItemText primary="Create Company" />
                   </ListItemButton>
                   <ListItemButton
                     component={Link}
                     to="/company-details"
-                    onClick={() => setSubmenuOpen(false)}
+                    onClick={() =>
+                      setOpenSubmenus((prev) => ({
+                        ...prev,
+                        company: false,
+                      }))
+                    }
                   >
                     <ListItemText primary="Company Details" />
                   </ListItemButton>
                   <ListItemButton
                     component={Link}
                     to="/other-details"
-                    onClick={() => setSubmenuOpen(false)}
+                    onClick={() =>
+                      setOpenSubmenus((prev) => ({
+                        ...prev,
+                        company: false,
+                      }))
+                    }
+                  >
+                    <ListItemText primary="Other Details" />
+                  </ListItemButton>
+                </List>
+              </Collapse>
+            </Box>
+          </ListItem>
+          <ListItem disablePadding>
+            <Box
+              sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+            >
+              <ListItemButton
+                onClick={() => handleSubmenuToggle('transactions')}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Paid />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Transactions"
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+                {open ? (
+                  openSubmenus.transactions ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  )
+                ) : (
+                  ''
+                )}
+              </ListItemButton>
+              <Collapse
+                in={openSubmenus.transactions}
+                timeout="auto"
+                unmountOnExit
+                sx={{ ml: 4 }}
+              >
+                <List component="div" disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    to="/admin/transactions/new"
+                    onClick={() =>
+                      setOpenSubmenus((prev) => ({
+                        ...prev,
+                        transactions: false,
+                      }))
+                    }
+                  >
+                    <ListItemText primary="New Transaction" />
+                  </ListItemButton>
+                  <ListItemButton
+                    component={Link}
+                    to="/admin/transactions"
+                    onClick={() =>
+                      setOpenSubmenus((prev) => ({
+                        ...prev,
+                        transactions: false,
+                      }))
+                    }
+                  >
+                    <ListItemText primary="All Transactions" />
+                  </ListItemButton>
+                  <ListItemButton
+                    component={Link}
+                    to="/admin/transactions/detail"
+                    onClick={() =>
+                      setOpenSubmenus((prev) => ({
+                        ...prev,
+                        transactions: false,
+                      }))
+                    }
+                  >
+                    <ListItemText primary="Transaction Details" />
+                  </ListItemButton>
+                </List>
+              </Collapse>
+            </Box>
+          </ListItem>
+          <ListItem disablePadding>
+            <Box
+              sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+            >
+              <ListItemButton
+                onClick={() => handleSubmenuToggle('accounts')}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <AccountBox />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Accounts"
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+                {open ? (
+                  openSubmenus.accounts ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  )
+                ) : (
+                  ''
+                )}
+              </ListItemButton>
+              <Collapse
+                in={openSubmenus.accounts}
+                timeout="auto"
+                unmountOnExit
+                sx={{ ml: 4 }}
+              >
+                <List component="div" disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    to="/admin/accounts/create"
+                    onClick={() =>
+                      setOpenSubmenus((prev) => ({
+                        ...prev,
+                        accounts: false,
+                      }))
+                    }
+                  >
+                    <ListItemText primary="Create Account" />
+                  </ListItemButton>
+                  <ListItemButton
+                    component={Link}
+                    to="/admin/accounts/details"
+                    onClick={() =>
+                      setOpenSubmenus((prev) => ({
+                        ...prev,
+                        accounts: false,
+                      }))
+                    }
+                  >
+                    <ListItemText primary="Account Details" />
+                  </ListItemButton>
+                  <ListItemButton
+                    component={Link}
+                    to="/other-details"
+                    onClick={() =>
+                      setOpenSubmenus((prev) => ({
+                        ...prev,
+                        accounts: false,
+                      }))
+                    }
                   >
                     <ListItemText primary="Other Details" />
                   </ListItemButton>
@@ -241,9 +440,8 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         <List>
           <ListItem disablePadding>
             <ListItemButton
-              onClick={() => {
-                /* Handle customers click */
-              }}
+              component={Link}
+              to="/admin/customers"
               sx={{
                 minHeight: 48,
                 justifyContent: open ? 'initial' : 'center',

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { jwtDecode } from 'jwt-decode';
+import { getDecodedToken } from '@labkhata/Utils';
 
 interface Company {
   id: string;
@@ -43,8 +43,8 @@ export const companyApi = createApi({
         if (!token) {
           throw new Error('Token not found');
         }
-        const decodedToken = jwtDecode<DecodedToken>(token);
-        const userId = decodedToken.id;
+        const decodedToken = getDecodedToken();
+        const userId = decodedToken?.id;
         return {
           url: `company/${userId}`,
           method: 'POST',
@@ -55,7 +55,22 @@ export const companyApi = createApi({
         };
       },
     }),
+    getCompany: builder.query<Company, string>({
+      query: (companyId) => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('Token not found');
+        }
+        return {
+          url: `company/${companyId}`,
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+      },
+    }),
   }),
 });
 
-export const { useCreateCompanyMutation } = companyApi;
+export const { useCreateCompanyMutation, useGetCompanyQuery } = companyApi;

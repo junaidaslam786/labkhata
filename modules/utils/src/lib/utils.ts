@@ -1,16 +1,12 @@
 import { jwtDecode } from 'jwt-decode';
 
-export function utils(): string {
-  return 'Utils';
-}
-
 interface DecodedToken {
   id: number;
   name: string;
   email: string;
 }
 
-export default function getDecodedToken(): DecodedToken | null {
+export function getDecodedToken(): DecodedToken | null {
   const token = localStorage.getItem('token') as string | null;
 
   if (!token) {
@@ -25,3 +21,4 @@ export default function getDecodedToken(): DecodedToken | null {
     return null;
   }
 }
+ 

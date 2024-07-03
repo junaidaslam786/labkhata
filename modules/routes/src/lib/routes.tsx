@@ -6,6 +6,7 @@ import {
   CreateCompany,
   Dashboard,
   CreateAccountsPage,
+  NewTransactionPage,
 } from '@labkhata/pages';
 import ProtectedRoute from './ProtectedRoute';
 import { AdminLayout } from '@labkhata/layouts';
@@ -23,6 +24,10 @@ const AppRoutes: React.FC = () => {
           <Route
             path="/admin/accounts/create"
             element={<CreateAccountsPage />}
+          />
+          <Route
+            path="/admin/transactions/new"
+            element={<NewTransactionPage />}
           />
         </Route>
       </Route>

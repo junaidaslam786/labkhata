@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useCreateAccountMutation } from '@labkhata/store';
 import { AccountForm } from '@labkhata/company';
 import './CreateAccountsPage.module.css';
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 
 const CreateAccountsPage: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
