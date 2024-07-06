@@ -6,8 +6,10 @@ import {
   MenuItem,
   TextField,
   Typography,
+  CircularProgress,
+  Alert,
 } from '@mui/material';
-import { useGetUserQuery } from '@labkhata/store';
+import { useGetUserQuery, useFetchAccountsQuery } from '@labkhata/store';
 
 interface JournalEntry {
   accountId: number;
@@ -31,15 +33,18 @@ interface NewTransactionProps {
     companyId: number;
     journalEntries: JournalEntry[];
   }) => void;
+  initialData?: TransactionFormData;
 }
 
-const NewTransaction: React.FC<NewTransactionProps> = ({ onSubmit }) => {
+const NewTransaction: React.FC<NewTransactionProps> = ({ onSubmit, initialData }) => {
+  const { data: accounts, isLoading, error } = useFetchAccountsQuery();
+  const { data: user } = useGetUserQuery();
   const [formData, setFormData] = useState<TransactionFormData>({
-    date: '',
-    amount: 0,
-    description: '',
-    companyId: 0,
-    journalEntries: [
+    date: initialData?.date || '',
+    amount: initialData?.amount || 0,
+    description: initialData?.description || '',
+    companyId: initialData?.companyId || 0,
+    journalEntries: initialData?.journalEntries || [
       {
         accountId: 0,
         debit: 0,
@@ -48,16 +53,14 @@ const NewTransaction: React.FC<NewTransactionProps> = ({ onSubmit }) => {
     ],
   });
 
-  const { data: user } = useGetUserQuery();
-
   useEffect(() => {
-    if (user && user.company) {
+    if (user && user.company && !initialData) {
       setFormData((prevData) => ({
         ...prevData,
         companyId: user.company.id,
       }));
     }
-  }, [user]);
+  }, [user, initialData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -111,6 +114,45 @@ const NewTransaction: React.FC<NewTransactionProps> = ({ onSubmit }) => {
   const handleSubmit = (data: TransactionFormData) => {
     onSubmit(data);
   };
+
+  if (isLoading) {
+    return (
+      <Container component="main" maxWidth="sm">
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            mt: 3,
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      </Container>
+    );
+  }
+
+  if (error) {
+    const errorMessage =
+      'status' in error
+        ? `Error fetching contacts: ${error.status}`
+        : error.message;
+
+    return (
+      <Container component="main" maxWidth="sm">
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            mt: 3,
+          }}
+        >
+          <Alert severity="error">{errorMessage}</Alert>
+        </Box>
+      </Container>
+    );
+  }
 
   return (
     <Container component="main" maxWidth="sm">
@@ -169,9 +211,11 @@ const NewTransaction: React.FC<NewTransactionProps> = ({ onSubmit }) => {
             value={formData.journalEntries[0].accountId}
             onChange={handleAccountChange}
           >
-            <MenuItem value={1}>Account 1</MenuItem>
-            <MenuItem value={2}>Account 2</MenuItem>
-            <MenuItem value={3}>Account 3</MenuItem>
+            {accounts?.map((account) => (
+              <MenuItem key={account.id} value={account.id}>
+                {account.name}
+              </MenuItem>
+            ))}
           </TextField>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
             <Button

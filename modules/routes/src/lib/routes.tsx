@@ -10,6 +10,7 @@ import {
   NewContactPage,
   TransactionPage,
   ContactPage,
+  AccountsPage,
 } from '@labkhata/pages';
 import ProtectedRoute from './ProtectedRoute';
 import { AdminLayout } from '@labkhata/layouts';
@@ -17,6 +18,7 @@ import { AdminLayout } from '@labkhata/layouts';
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
+      <Route path="/" element={<LoginPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
@@ -29,21 +31,16 @@ const AppRoutes: React.FC = () => {
             element={<CreateAccountsPage />}
           />
           <Route
+            path="/admin/accounts"
+            element={<AccountsPage />}
+          />
+          <Route
             path="/admin/transactions/new"
             element={<NewTransactionPage />}
           />
-          <Route
-            path="/admin/transactions"
-            element={<TransactionPage />}
-          />
-          <Route
-            path="/admin/contacts/new"
-            element={<NewContactPage />}
-          />
-          <Route
-            path="/admin/contacts"
-            element={<ContactPage />}
-          />
+          <Route path="/admin/transactions" element={<TransactionPage />} />
+          <Route path="/admin/contacts/new" element={<NewContactPage />} />
+          <Route path="/admin/contacts" element={<ContactPage />} />
         </Route>
       </Route>
     </Routes>

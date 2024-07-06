@@ -9,7 +9,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
 interface Column {
-  id: 'id' | 'name' | 'email' | 'phone' | 'type';
+  id: 'id' | 'name' | 'type' | 'initialBalance' | 'initialBalanceType';
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -19,24 +19,34 @@ interface Column {
 const columns: Column[] = [
   { id: 'id', label: 'ID', minWidth: 100 },
   { id: 'name', label: 'Name', minWidth: 175 },
-  { id: 'email', label: 'Email', minWidth: 170, align: 'right' },
-  { id: 'phone', label: 'Phone', minWidth: 170, align: 'right' },
   { id: 'type', label: 'Type', minWidth: 170, align: 'right' },
+  {
+    id: 'initialBalance',
+    label: 'Initial Balance',
+    minWidth: 170,
+    align: 'right',
+  },
+  {
+    id: 'initialBalanceType',
+    label: 'Initial Balance Type',
+    minWidth: 170,
+    align: 'right',
+  },
 ];
 
 interface Data {
   id: number;
   name: string;
-  email: string;
-  phone: string;
-  type: 'customer' | 'supplier';
+  type: string;
+  initialBalance: string;
+  initialBalanceType: string;
 }
 
-interface ContactsProps {
+interface AccountsProps {
   rows: Data[];
 }
 
-const Contacts: React.FC<ContactsProps> = ({ rows }) => {
+const Accounts: React.FC<AccountsProps> = ({ rows }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -58,7 +68,7 @@ const Contacts: React.FC<ContactsProps> = ({ rows }) => {
           <TableHead>
             <TableRow>
               <TableCell align="center" colSpan={2}>
-                Contacts
+                Accounts
               </TableCell>
               <TableCell align="center" colSpan={3}>
                 Details
@@ -111,4 +121,4 @@ const Contacts: React.FC<ContactsProps> = ({ rows }) => {
   );
 };
 
-export default Contacts;
+export default Accounts;

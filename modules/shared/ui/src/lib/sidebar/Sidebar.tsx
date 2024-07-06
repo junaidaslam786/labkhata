@@ -128,7 +128,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         ...prev,
         [submenu]: !prev[submenu],
       }));
-    } 
+    }
   };
 
   return (
@@ -338,18 +338,6 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                   >
                     <ListItemText primary="All Transactions" />
                   </ListItemButton>
-                  <ListItemButton
-                    component={Link}
-                    to="/admin/transactions/detail"
-                    onClick={() =>
-                      setOpenSubmenus((prev) => ({
-                        ...prev,
-                        transactions: false,
-                      }))
-                    }
-                  >
-                    <ListItemText primary="Transaction Details" />
-                  </ListItemButton>
                 </List>
               </Collapse>
             </Box>
@@ -410,7 +398,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                   </ListItemButton>
                   <ListItemButton
                     component={Link}
-                    to="/admin/accounts/details"
+                    to="/admin/accounts"
                     onClick={() =>
                       setOpenSubmenus((prev) => ({
                         ...prev,
@@ -418,19 +406,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                       }))
                     }
                   >
-                    <ListItemText primary="Account Details" />
-                  </ListItemButton>
-                  <ListItemButton
-                    component={Link}
-                    to="/other-details"
-                    onClick={() =>
-                      setOpenSubmenus((prev) => ({
-                        ...prev,
-                        accounts: false,
-                      }))
-                    }
-                  >
-                    <ListItemText primary="Other Details" />
+                    <ListItemText primary="All Accounts" />
                   </ListItemButton>
                 </List>
               </Collapse>
@@ -489,18 +465,6 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
                     }
                   >
                     <ListItemText primary="Create Contact" />
-                  </ListItemButton>
-                  <ListItemButton
-                    component={Link}
-                    to="/admin/contacts/details"
-                    onClick={() =>
-                      setOpenSubmenus((prev) => ({
-                        ...prev,
-                        contacts: false,
-                      }))
-                    }
-                  >
-                    <ListItemText primary="Contact Details" />
                   </ListItemButton>
                   <ListItemButton
                     component={Link}

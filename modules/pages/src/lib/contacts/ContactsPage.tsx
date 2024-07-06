@@ -11,15 +11,15 @@ export function ContactsPage() {
   }
 
   if (error) {
-    return <div>Error loading contacts</div>;
+    return <div>Error loading contacts, try to log in again</div>;
   }
 
   if (!contacts) {
     return <div>No contacts available</div>;
   }
 
-  const formattedContacts = contacts.map((contact: any) => ({
-    id: contact.id,
+  const formattedContacts = contacts.map((contact: any, index: number) => ({
+    id: index + 1,
     name: contact.name,
     email: contact.email,
     phone: contact.phone,

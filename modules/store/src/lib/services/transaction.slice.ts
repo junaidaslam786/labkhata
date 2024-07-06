@@ -1,9 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+interface Account {
+  id: number;
+  name: string;
+  type: string;
+  initialBalance: string;
+  initialBalanceType: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface JournalEntry {
   accountId: number;
   debit: number;
   credit: number;
+  createdAt: string;
+  updatedAt: string;
+  account: Account;
 }
 
 interface Transaction {
@@ -42,13 +55,17 @@ const transactionSlice = createSlice({
       state.transactions.push(action.payload);
     },
     updateTransaction: (state, action: PayloadAction<Transaction>) => {
-      const index = state.transactions.findIndex(t => t.id === action.payload.id);
+      const index = state.transactions.findIndex(
+        (t) => t.id === action.payload.id
+      );
       if (index !== -1) {
         state.transactions[index] = action.payload;
       }
     },
     deleteTransaction: (state, action: PayloadAction<number>) => {
-      state.transactions = state.transactions.filter(t => t.id !== action.payload);
+      state.transactions = state.transactions.filter(
+        (t) => t.id !== action.payload
+      );
     },
   },
 });

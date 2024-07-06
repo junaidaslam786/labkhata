@@ -9,7 +9,7 @@ import { contactApi } from './services/api/contact.api';
 import authReducer from './services/auth.slice';
 import companyReducer from './services/company.slice';
 import userReducer from './services/user.slice';
-import transactionReducer from './services/transaction.slice'
+import transactionReducer from './services/transaction.slice';
 
 export const store = configureStore({
   reducer: {
@@ -25,7 +25,14 @@ export const store = configureStore({
     [contactApi.reducerPath]: contactApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware, companyApi.middleware, userApi.middleware, contactApi.middleware),
+    getDefaultMiddleware().concat(
+      authApi.middleware,
+      companyApi.middleware,
+      userApi.middleware,
+      contactApi.middleware,
+      accountApi.middleware,
+      transactionApi.middleware
+    ),
 });
 
 setupListeners(store.dispatch);
